@@ -1,0 +1,68 @@
+name: Release
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  build_and_release:
+    name: Build and release
+    runs-on: ubuntu-22.04
+    if: contains(github.event.comment.body, '/release-action')
+    steps:
+      - name: Prepare devkitPro environment
+        run: |
+          sudo apt-get update && sudo apt-get install -y wget sudo libxml2 xz-utils lzma build-essential haveged python3 python3-pip lz4 zip
+          sudo haveged &
+          sudo touch /trustdb.gpg
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
+          pip install lz4
+
+          sudo apt-get install -y apt-transport-https
+          if [ ! -f /usr/local/share/keyring/devkitpro-pub.gpg ]; then
+            sudo mkdir -p /usr/local/share/keyring/
+            sudo wget -O /usr/local/share/keyring/devkitpro-pub.gpg https://apt.devkitpro.org/devkitpro-pub.gpg
+          fi
+          if [ ! -f /etc/apt/sources.list.d/devkitpro.list ]; then
+              sudo echo "deb [signed-by=/usr/local/share/keyring/devkitpro-pub.gpg] https://apt.devkitpro.org stable main" | sudo tee /etc/apt/sources.list.d/devkitpro.list
+          fi
+          sudo apt-get update
+          sudo apt-get install -y devkitpro-pacman
+          sudo dkp-pacman -Sy && sudo dkp-pacman --noconfirm -Syu
+          sudo dkp-pacman --noconfirm -S devkitA64 libnx switch-tools switch-curl switch-bzip2 switch-freetype switch-libjpeg-turbo switch-libwebp switch-sdl2 switch-sdl2_gfx switch-sdl2_image switch-sdl2_ttf switch-zlib switch-libpng switch-mesa general-tools switch-portlibs switch-dev switch-glm devkitARM devkitarm-rules hactool
+        shell: bash
+      - name: Checkout latest code
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: master
+          clean: true
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Setup ENV parameters
+        run: |
+          rev=$(echo "$(git rev-parse --short=9 HEAD)")
+          #tag=$(echo "$(git tag --sort=-version:refname|head -1)")
+          #echo "TAG=${tag}-with-sigpatch" >> "${GITHUB_ENV}"
+          echo "REV=${rev}" > "${GITHUB_ENV}"
+          VER_FILE=libraries/libvapours/include/vapours/ams/ams_api_version.h
+          VERSION=$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MAJOR/{print $3}' $VER_FILE).$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MINOR/{print $3}' $VER_FILE).$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MICRO/{print $3}' $VER_FILE)
+          echo "TAG=${VERSION}-with-sigpatch" >> "${GITHUB_ENV}"
+          echo "VER=${VERSION}" >> "${GITHUB_ENV}"
+          echo "RELEASE_NAME=Atmosphère ${VERSION} with sigpatch" >> "${GITHUB_ENV}"
+          echo "RELEASE_PATH=/opt/images" >> "${GITHUB_ENV}"
+        shell: bash
+      - name: Build
+        run: |
+          export DEVKITPRO=/opt/devkitpro
+          make -f atmosphere.mk dist-no-debug
+        shell: bash
+      - name: Github Release create, update, and upload assets
+        uses: meeDamian/github-release@v2.0.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.TAG }}
+          name: ${{ env.RELEASE_NAME }}
+          gzip: false
+          files: >
+            out/nintendo_nx_arm64_armv8a/release/atmosphere-${{ env.VER }}-master-${{ env.REV }}.zip
+            out/nintendo_nx_arm64_armv8a/release/fusee.bin
+          allow_override: yes
