@@ -50,14 +50,15 @@ jobs:
           export DEVKITPRO=/opt/devkitpro
           make -f atmosphere.mk dist-no-debug
         shell: bash
-      - name: Github Release create, update, and upload assets
-        uses: lstefano71/github-release@v2.0.4
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2.0.9
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.TAG }}
           name: ${{ env.RELEASE_NAME }}
-          gzip: false
-          files: >
-            atmosphere-${{ env.VER }}-master-${{ env.REV }}.zip:./out/nintendo_nx_arm64_armv8a/release/
-            fusee.bin:./out/nintendo_nx_arm64_armv8a/release/
-          allow_override: yes
+          tag_name: ${{ env.TAG }}
+          draft: false
+          prerelease: false
+          generate_release_notes: yes
+          make_latest: true
+          files: |
+            ./out/nintendo_nx_arm64_armv8a/release/atmosphere-${{ env.VER }}-master-${{ env.REV }}.zip
+            ./out/nintendo_nx_arm64_armv8a/release/fusee.bin
