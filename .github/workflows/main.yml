@@ -51,7 +51,7 @@ jobs:
           make -f atmosphere.mk dist-no-debug
         shell: bash
       - name: Github Release create, update, and upload assets
-        uses: ivan-the-terrible/github-release@v2.0.4
+        uses: lstefano71/github-release@v2.0.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.TAG }}
