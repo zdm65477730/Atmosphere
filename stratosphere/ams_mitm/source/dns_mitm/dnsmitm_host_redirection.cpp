@@ -65,6 +65,10 @@ namespace ams::mitm::socket::resolver {
         }
 
         constexpr const char DefaultHostsFile[] =
+            "# Nintendo telemetry servers\n"
+            "127.0.0.1 receive-%.dg.srv.nintendo.net receive-%.er.srv.nintendo.net\n";
+
+        constexpr const char FullNintendoServersBlockingHostsFile[] =
             "# All Nintendo servers\n"
             "127.0.0.1 *nintendo*\n";
 
@@ -299,11 +303,21 @@ namespace ams::mitm::socket::resolver {
             return false;
         }
 
+        bool ShouldAddFullNintendoServerBlockingResolverRedirections() {
+            u8 en = 0;
+            if (settings::fwdbg::GetSettingsItemValue(std::addressof(en), sizeof(en), "atmosphere", "add_nintendo_blocking_to_dns_hosts") == sizeof(en)) {
+                return (en != 0);
+            }
+            return false;
+        }
     }
 
     void InitializeResolverRedirections() {
         /* Get whether we should add defaults. */
         const bool add_defaults = ShouldAddDefaultResolverRedirections();
+
+        /* Get whether we should add full Nintendo servers blocking list in resolver redirection list. */
+        const bool add_full_nintendo_servers_block = ShouldAddFullNintendoServerBlockingResolverRedirections();
 
         /* Acquire exclusive access to the map. */
         std::scoped_lock lk(g_redirection_lock);
@@ -338,6 +352,12 @@ namespace ams::mitm::socket::resolver {
         if (add_defaults) {
             Log(log_file, "Adding defaults to redirection list.\n");
             ParseHostsFile(DefaultHostsFile);
+        }
+
+        /* If we should, add the full nintendo servers blocking rule. */
+        if (add_full_nintendo_servers_block) {
+            Log(log_file, "Adding full Nintendo servers blocking rule to redirection list.\n");
+            ParseHostsFile(FullNintendoServersBlockingHostsFile);
         }
 
         /* Select the hosts file. */
