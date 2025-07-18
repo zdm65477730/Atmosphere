@@ -160,5 +160,5 @@ constexpr inline const EmbeddedPatch ForceCommunicationEnabledPatches[] = {
     { ParseModuleId("0C4C2220D90155B139E254179D2D35244B32C9C1"), util::size(ForceCommunicationEnabledPatches_18_0_1), ForceCommunicationEnabledPatches_18_0_1 }, /* 18.0.1-18.1.0 */
     { ParseModuleId("1BD31ABF1E3E607CA79B29CF7D7B10758FF93FA0"), util::size(ForceCommunicationEnabledPatches_19_0_0), ForceCommunicationEnabledPatches_19_0_0 }, /* 19.0.0-19.0.1 */
     { ParseModuleId("2C3E24F46D131685B361FEE1F0570B985095E034"), util::size(ForceCommunicationEnabledPatches_20_0_0), ForceCommunicationEnabledPatches_20_0_0 }, /* 20.0.0-20.0.1 */
-    { ParseModuleId("523D2C6E08D9BE4B512AD20AA5628B7BB06D73C2"), util::size(ForceCommunicationEnabledPatches_20_1_0), ForceCommunicationEnabledPatches_20_1_0 }, /* 20.1.0 */
+    { ParseModuleId("523D2C6E08D9BE4B512AD20AA5628B7BB06D73C2"), util::size(ForceCommunicationEnabledPatches_20_1_0), ForceCommunicationEnabledPatches_20_1_0 }, /* 20.1.0-20.2.0 */
 };
