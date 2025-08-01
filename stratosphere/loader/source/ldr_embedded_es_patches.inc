@@ -155,5 +155,5 @@ constexpr inline const EmbeddedPatch DisableTicketVerificationPatches[] = {
     { ParseModuleId("897C2CF2777B3A8845640C096933ACE61DD12272"), util::size(DisableTicketVerificationPatches_18_0_0), DisableTicketVerificationPatches_18_0_0 }, /* 18.0.0-18.1.0 */
     { ParseModuleId("4A258ADE9176A7F263532C2A4C30187A0B00C012"), util::size(DisableTicketVerificationPatches_19_0_0), DisableTicketVerificationPatches_19_0_0 }, /* 19.0.0-19.0.1 */
     { ParseModuleId("CF84DE5278AE823734DE630A098C6B1AEEF12894"), util::size(DisableTicketVerificationPatches_20_0_0), DisableTicketVerificationPatches_20_0_0 }, /* 20.0.0-20.0.1 */
-    { ParseModuleId("8B2E677DE5991C87B35E84F7DDB8056F62D4582E"), util::size(DisableTicketVerificationPatches_20_1_0), DisableTicketVerificationPatches_20_1_0 }, /* 20.1.0-20.2.0 */
+    { ParseModuleId("8B2E677DE5991C87B35E84F7DDB8056F62D4582E"), util::size(DisableTicketVerificationPatches_20_1_0), DisableTicketVerificationPatches_20_1_0 }, /* 20.1.0-20.3.0 */
 };
