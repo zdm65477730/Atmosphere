@@ -131,6 +131,10 @@ constexpr inline const EmbeddedPatchEntry ForceCommunicationEnabledPatches_20_1_
     { 0x87AC0, "\x00\x30\x9A\xD2\x00\x1E\xA1\xF2\x61\x01\x00\xD4\xE0\x03\x1F\xAA\xC0\x03\x5F\xD6", 20 },
 };
 
+constexpr inline const EmbeddedPatchEntry ForceCommunicationEnabledPatches_21_0_0[] = {
+    { 0x88FD0, "\x00\x30\x9A\xD2\x00\x1E\xA1\xF2\x61\x01\x00\xD4\xE0\x03\x1F\xAA\xC0\x03\x5F\xD6", 20 },
+};
+
 constexpr inline const EmbeddedPatch ForceCommunicationEnabledPatches[] = {
     { ParseModuleId("D47D1506009B340829CD545B2A3F3AA7881FBADA"), util::size(ForceCommunicationEnabledPatches_1_0_0), ForceCommunicationEnabledPatches_1_0_0 }, /* 1.0.0 */
     { ParseModuleId("E6BFDADD5C69E17D43B7C67E2B2EE8B2E50C8E1F"), util::size(ForceCommunicationEnabledPatches_2_0_0), ForceCommunicationEnabledPatches_2_0_0 }, /* 2.0.0 */
@@ -160,5 +164,6 @@ constexpr inline const EmbeddedPatch ForceCommunicationEnabledPatches[] = {
     { ParseModuleId("0C4C2220D90155B139E254179D2D35244B32C9C1"), util::size(ForceCommunicationEnabledPatches_18_0_1), ForceCommunicationEnabledPatches_18_0_1 }, /* 18.0.1-18.1.0 */
     { ParseModuleId("1BD31ABF1E3E607CA79B29CF7D7B10758FF93FA0"), util::size(ForceCommunicationEnabledPatches_19_0_0), ForceCommunicationEnabledPatches_19_0_0 }, /* 19.0.0-19.0.1 */
     { ParseModuleId("2C3E24F46D131685B361FEE1F0570B985095E034"), util::size(ForceCommunicationEnabledPatches_20_0_0), ForceCommunicationEnabledPatches_20_0_0 }, /* 20.0.0-20.0.1 */
-    { ParseModuleId("523D2C6E08D9BE4B512AD20AA5628B7BB06D73C2"), util::size(ForceCommunicationEnabledPatches_20_1_0), ForceCommunicationEnabledPatches_20_1_0 }, /* 20.1.0-20.3.0 */
+    { ParseModuleId("523D2C6E08D9BE4B512AD20AA5628B7BB06D73C2"), util::size(ForceCommunicationEnabledPatches_20_1_0), ForceCommunicationEnabledPatches_20_1_0 }, /* 20.1.0-20.5.0 */
+    { ParseModuleId("B206E5323EA13A4F1A4BE29FDAA0FB4341866DEB"), util::size(ForceCommunicationEnabledPatches_21_0_0), ForceCommunicationEnabledPatches_21_0_0 }, /* 21.0.0- */
 };

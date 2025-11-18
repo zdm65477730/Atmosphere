@@ -127,6 +127,10 @@ constexpr inline const EmbeddedPatchEntry DisableTicketVerificationPatches_20_1_
     { 0x76A18, "\xE0\x03\x1F\xAA", 4 },
 };
 
+constexpr inline const EmbeddedPatchEntry DisableTicketVerificationPatches_21_0_0[] = {
+    { 0x735B0, "\xE0\x03\x1F\xAA", 4 },
+};
+
 constexpr inline const EmbeddedPatch DisableTicketVerificationPatches[] = {
     { ParseModuleId("F7271147BA178C4E9F6451C62B10E668E6F8DECC"), util::size(DisableTicketVerificationPatches_1_0_0), DisableTicketVerificationPatches_1_0_0 }, /* 1.0.0 */
     { ParseModuleId("76935CA6235CA150D790D4DDF09CA3488AEF50D8"), util::size(DisableTicketVerificationPatches_2_3_0), DisableTicketVerificationPatches_2_3_0 }, /* 2.3.0 */
@@ -155,5 +159,6 @@ constexpr inline const EmbeddedPatch DisableTicketVerificationPatches[] = {
     { ParseModuleId("897C2CF2777B3A8845640C096933ACE61DD12272"), util::size(DisableTicketVerificationPatches_18_0_0), DisableTicketVerificationPatches_18_0_0 }, /* 18.0.0-18.1.0 */
     { ParseModuleId("4A258ADE9176A7F263532C2A4C30187A0B00C012"), util::size(DisableTicketVerificationPatches_19_0_0), DisableTicketVerificationPatches_19_0_0 }, /* 19.0.0-19.0.1 */
     { ParseModuleId("CF84DE5278AE823734DE630A098C6B1AEEF12894"), util::size(DisableTicketVerificationPatches_20_0_0), DisableTicketVerificationPatches_20_0_0 }, /* 20.0.0-20.0.1 */
-    { ParseModuleId("8B2E677DE5991C87B35E84F7DDB8056F62D4582E"), util::size(DisableTicketVerificationPatches_20_1_0), DisableTicketVerificationPatches_20_1_0 }, /* 20.1.0-20.3.0 */
+    { ParseModuleId("8B2E677DE5991C87B35E84F7DDB8056F62D4582E"), util::size(DisableTicketVerificationPatches_20_1_0), DisableTicketVerificationPatches_20_1_0 }, /* 20.1.0-20.5.0 */
+    { ParseModuleId("632246E2E62ECBD0D2CC8FD7D2AB15964CAFC462"), util::size(DisableTicketVerificationPatches_21_0_0), DisableTicketVerificationPatches_21_0_0 }, /* 21.0.0- */
 };
