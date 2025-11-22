@@ -711,32 +711,32 @@ namespace ams::nxboot {
                     break;
                 case FsVersion_17_0_0:
                 case FsVersion_17_0_0_Exfat:
-                    AddPatch(fs_meta, 0x024254, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     AddPatch(fs_meta, 0x073C04, NoNcaHeaderSignatureCheckPatch1, sizeof(NoNcaHeaderSignatureCheckPatch1));
+                    AddPatch(fs_meta, 0x024254, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     break;
                 case FsVersion_18_0_0:
                 case FsVersion_18_0_0_Exfat:
                 case FsVersion_18_1_0:
                 case FsVersion_18_1_0_Exfat:
+                    AddPatch(fs_meta, 0x0744BC, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch1));
                     AddPatch(fs_meta, 0x0246F4, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
-                    AddPatch(fs_meta, 0x0744BC, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     break;
                 case FsVersion_19_0_0:
                 case FsVersion_19_0_0_Exfat:
-                    AddPatch(fs_meta, 0x021578, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     AddPatch(fs_meta, 0x0746A0, NoNcaHeaderSignatureCheckPatch1, sizeof(NoNcaHeaderSignatureCheckPatch1));
+                    AddPatch(fs_meta, 0x021578, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     break;
                 case FsVersion_20_0_0:
                 case FsVersion_20_0_0_Exfat:
                 case FsVersion_20_1_0:
                 case FsVersion_20_1_0_Exfat:
-                    AddPatch(fs_meta, 0x023C88, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     AddPatch(fs_meta, 0x07A880, NoNcaHeaderSignatureCheckPatch1, sizeof(NoNcaHeaderSignatureCheckPatch1));
+                    AddPatch(fs_meta, 0x023C88, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     break;
                 case FsVersion_21_0_0:
                 case FsVersion_21_0_0_Exfat:
-                    AddPatch(fs_meta, 0x026960, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
-                    AddPatch(fs_meta, 0x07FA88, NoNcaHeaderSignatureCheckPatch1, sizeof(NoNcaHeaderSignatureCheckPatch1));
+                    AddPatch(fs_meta, 0x07FB88, NoNcaHeaderSignatureCheckPatch1, sizeof(NoNcaHeaderSignatureCheckPatch1));
+                    AddPatch(fs_meta, 0x026A60, NoNcaHeaderSignatureCheckPatch0, sizeof(NoNcaHeaderSignatureCheckPatch0));
                     break;
                 default:
                     break;

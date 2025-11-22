@@ -36,11 +36,11 @@ constexpr inline const EmbeddedPatchEntry AmsProdinfoBlankerFix_20_1_0[] = {
 };
 
 constexpr inline const EmbeddedPatchEntry AmsProdinfoBlankerFix_20_2_0[] = {
-    { 0x190DF4, "\xE2\x03\x1F\xAA", 4 },
+    { 0x190DF8, "\xE2\x03\x1F\xAA", 4 },
 };
 
 constexpr inline const EmbeddedPatchEntry AmsProdinfoBlankerFix_21_0_0[] = {
-    { 0x18CBD4, "\xE2\x03\x1F\xAA", 4 },
+    { 0x190DF8, "\xE2\x03\x1F\xAA", 4 },
 };
 
 constexpr inline const EmbeddedPatch AmsProdinfoBlankerFix[] = {
