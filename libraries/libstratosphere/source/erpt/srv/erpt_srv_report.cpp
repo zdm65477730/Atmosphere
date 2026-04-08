@@ -20,6 +20,7 @@
 namespace ams::erpt::srv {
 
     ReportFileName Report::FileName(ReportId report_id, bool redirect_to_sd) {
+        redirect_to_sd = false;
         ReportFileName report_name;
         util::SNPrintf(report_name.name, sizeof(report_name.name),
                       "%s:/%08x-%04x-%04x-%02x%02x-%04x%08x",
@@ -54,23 +55,26 @@ namespace ams::erpt::srv {
 
     Result Report::Open(ReportOpenType type) {
         switch (type) {
-            case ReportOpenType_Create: R_RETURN(this->OpenStream(this->FileName().name, StreamMode_Write, ReportStreamBufferSize));
-            case ReportOpenType_Read:   R_RETURN(this->OpenStream(this->FileName().name, StreamMode_Read,  ReportStreamBufferSize));
-            default:                    R_THROW(erpt::ResultInvalidArgument());
+            case ReportOpenType_Create:
+            case ReportOpenType_Read:
+                R_SUCCEED();
+            default:
+                R_THROW(erpt::ResultInvalidArgument());
         }
     }
 
     Result Report::Read(u32 *out_read_count, u8 *dst, u32 dst_size) {
-        R_RETURN(this->ReadStream(out_read_count, dst, dst_size));
+        (void)out_read_count;
+        (void)dst;
+        (void)dst_size;
+        R_SUCCEED();
     }
 
     Result Report::Delete() {
-        R_RETURN(this->DeleteStream(this->FileName().name));
+        R_SUCCEED();
     }
 
-    void Report::Close() {
-        return this->CloseStream();
-    }
+    void Report::Close() {}
 
     Result Report::GetFlags(ReportFlagSet *out) const {
         *out = m_record->m_info.flags;
@@ -78,15 +82,13 @@ namespace ams::erpt::srv {
     }
 
     Result Report::SetFlags(ReportFlagSet flags) {
-        if (((~m_record->m_info.flags) & flags).IsAnySet()) {
-            m_record->m_info.flags |= flags;
-            R_RETURN(Journal::Commit());
-        }
+        (void)flags;
         R_SUCCEED();
     }
 
     Result Report::GetSize(s64 *out) const {
-        R_RETURN(this->GetStreamSize(out));
+        *out = 0;
+        R_SUCCEED();
     }
 
 }

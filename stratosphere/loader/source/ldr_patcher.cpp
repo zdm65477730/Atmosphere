@@ -107,9 +107,26 @@ namespace ams::ldr {
             const EmbeddedPatchEntry *entries;
         };
 
+        #include "ldr_embedded_es_patches.inc"
+        #include "ldr_embedded_nifm_patches.inc"
+        #include "ldr_embedded_nim_patches.inc"
         #include "ldr_embedded_usb_patches.inc"
         #include "ldr_embedded_am_patches.inc"
 
+        /* Helper function to apply patches from a given patch array using range-based for loops */
+        template<size_t N>
+        void ApplyPatchesFromList(const EmbeddedPatch (&patch_list)[N], const ro::ModuleId &module_id, uintptr_t mapped_nso, size_t mapped_size) {
+            for (const auto &patch : patch_list) {
+                if (std::memcmp(std::addressof(patch.module_id), std::addressof(module_id), sizeof(module_id)) == 0) {
+                    for (size_t i = 0; i < patch.num_entries; ++i) {
+                        const auto &entry = patch.entries[i];
+                        if (entry.offset + entry.size <= mapped_size) {
+                            std::memcpy(reinterpret_cast<void *>(mapped_nso + entry.offset), entry.data, entry.size);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /* Apply IPS patches. */
@@ -130,29 +147,17 @@ namespace ams::ldr {
         std::memcpy(std::addressof(module_id.data), module_id_data, sizeof(module_id.data));
 
         if (IsUsb30ForceEnabled()) {
-            for (const auto &patch : Usb30ForceEnablePatches) {
-                if (std::memcmp(std::addressof(patch.module_id), std::addressof(module_id), sizeof(module_id)) == 0) {
-                    for (size_t i = 0; i < patch.num_entries; ++i) {
-                        const auto &entry = patch.entries[i];
-                        if (entry.offset + entry.size <= mapped_size) {
-                            std::memcpy(reinterpret_cast<void *>(mapped_nso + entry.offset), entry.data, entry.size);
-                        }
-                    }
-                }
-            }
+            ApplyPatchesFromList(Usb30ForceEnablePatches, module_id, mapped_nso, mapped_size);
         }
         
         /* TODO: Remove this if/when a cleaner solution is implemented by hbmenu/libnx. */
-        for (const auto &patch : AmDisableTeardownPatches) {
-            if (std::memcmp(std::addressof(patch.module_id), std::addressof(module_id), sizeof(module_id)) == 0) {
-                for (size_t i = 0; i < patch.num_entries; ++i) {
-                    const auto &entry = patch.entries[i];
-                    if (entry.offset + entry.size <= mapped_size) {
-                        std::memcpy(reinterpret_cast<void *>(mapped_nso + entry.offset), entry.data, entry.size);
-                    }
-                }
-            }
-        }
+        ApplyPatchesFromList(AmDisableTeardownPatches, module_id, mapped_nso, mapped_size);
+
+        ApplyPatchesFromList(DisableTicketVerificationPatches, module_id, mapped_nso, mapped_size);
+
+        ApplyPatchesFromList(ForceCommunicationEnabledPatches, module_id, mapped_nso, mapped_size);
+
+        ApplyPatchesFromList(AmsProdinfoBlankerFix, module_id, mapped_nso, mapped_size);
     }
 
 }
