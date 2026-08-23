@@ -302,11 +302,21 @@ namespace ams::mitm::socket::resolver {
             return false;
         }
 
+        bool ShouldAddFullNintendoServerBlockingResolverRedirections() {
+            u8 en = 0;
+            if (settings::fwdbg::GetSettingsItemValue(std::addressof(en), sizeof(en), "atmosphere", "add_nintendo_blocking_to_dns_hosts") == sizeof(en)) {
+                return (en != 0);
+            }
+            return false;
+        }
     }
 
     void InitializeResolverRedirections() {
         /* Get whether we should add defaults. */
         const bool add_defaults = ShouldAddDefaultResolverRedirections();
+
+        /* Get whether we should add full Nintendo servers blocking list in resolver redirection list. */
+        const bool add_full_nintendo_servers_block = ShouldAddFullNintendoServerBlockingResolverRedirections();
 
         /* Acquire exclusive access to the map. */
         std::scoped_lock lk(g_redirection_lock);
@@ -341,7 +351,10 @@ namespace ams::mitm::socket::resolver {
         will be overridden by anything added after due to emplace_front in AddRedirection),
         this will force all of *nintendo* to be redirected to 127.0.0 without potential missing dns.mitm config files. */
         Log(log_file, "Adding hardcoded redirections.\n");
-        ParseHostsFile(HardcodedRedirections);
+        if (add_full_nintendo_servers_block) {
+            Log(log_file, "Adding hardcoded redirections.\n");
+            ParseHostsFile(HardcodedRedirections);
+        }
 
         /* If we should, add the defaults. */
         if (add_defaults) {

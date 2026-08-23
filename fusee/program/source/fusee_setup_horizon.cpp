@@ -593,7 +593,7 @@ namespace ams::nxboot {
             /* Parse usb setting from system_settings.ini */
             {
                 IniSectionList sections;
-                if (ParseIniSafe(sections, "sdmc:/atmosphere/config/system_settings.ini")) {
+                if (ParseIniSafe(sections, "sdmc:/atmosphere/config/exosphere.ini") || ParseIniSafe(sections, "sdmc:/exosphere.ini")) {
                     for (const auto &section : sections) {
                         /* We only care about the [usb] section. */
                         if (std::strcmp(section.name, "usb")) {
