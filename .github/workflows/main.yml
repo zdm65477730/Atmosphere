@@ -172,7 +172,7 @@ jobs:
             --latest \
             $PRERELEASE_FLAG \
             "atmosphere-release-assets/atmosphere-${VERSION}-master-${REV}.zip#Atmosphere-${TAG}.zip" \
-            "atmosphere-release-assets/fusee.bin#fusee-${TAG}.bin"
+            "atmosphere-release-assets/fusee.bin"
         continue-on-error: true
 
       - name: Reply result to /release-action comment
