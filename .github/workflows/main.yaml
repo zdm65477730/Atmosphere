@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  workflow_dispatch:
-  push:
+  issue_comment:
+    types: [ created ]
 
 permissions:
   contents: read
@@ -12,6 +12,9 @@ jobs:
     name: Validate Release Command
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: >
+      contains(github.event.comment.body, '/release-action')
+      && contains(fromJSON('["OWNER", "MEMBER"]'), github.event.comment.author_association)
     outputs:
       release_tag: ${{ steps.extract_version.outputs.TAG }}
       version: ${{ steps.extract_version.outputs.VERSION }}
