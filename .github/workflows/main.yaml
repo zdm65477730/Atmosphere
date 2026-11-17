@@ -1,8 +1,8 @@
 name: Release
 
 on:
-  workflow_dispatch:
-  push:
+  issue_comment:
+    types: [ created ]
 
 permissions:
   contents: read
@@ -11,6 +11,7 @@ jobs:
   validate:
     name: Validate Release Command
     runs-on: ubuntu-latest
+    if: contains(github.event.comment.body, '/release-action')
     timeout-minutes: 10
     outputs:
       release_tag: ${{ steps.extract_version.outputs.TAG }}
@@ -87,6 +88,7 @@ jobs:
     name: Build Atmosphère (Switch)
     runs-on: ubuntu-latest
     container: devkitpro/devkita64:latest
+    if: contains(github.event.comment.body, '/release-action')
     timeout-minutes: 120
     needs: validate
     permissions:
